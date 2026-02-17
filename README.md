@@ -96,7 +96,7 @@ Claude Code's Task tool enables longer execution chains. Combined with the [Ralp
 
 ## Acknowledgments
 
-Credit to [Get Shit Done (GSD)](https://github.com/ai-toolchain/gsd) for the inspiration. GSD had a particularly good approach to asking questions early in the workflow, and I took that idea and built on it. Where I found GSD fell short:
+Credit to [Get Shit Done (GSD)](https://github.com/ai-toolchain/gsd) for the inspiration. GSD had a particularly good approach to asking questions early in the workflow, and its state management -- persisting decisions and progress to files so sessions can resume -- is solid. I took both ideas and built on them. Where I found GSD fell short:
 
 - **Parallelism**: GSD doesn't leverage subagents for parallel work nearly enough. Dave runs research, execution, and review agents in parallel wherever possible.
 - **Context management**: Despite claiming to fight context rot, GSD fills the context window quickly. Dave implements Anthropic's progressive disclosure best practices and delegates output-heavy operations to subagents.
