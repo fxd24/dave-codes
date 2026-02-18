@@ -39,6 +39,23 @@ def test_cli_install_and_status(monkeypatch, tmp_path: Path) -> None:
     assert "In sync: 2" in status_result.stdout
 
 
+def test_cli_install_resolves_path_conflicts(monkeypatch, tmp_path: Path) -> None:
+    repo = _create_source_repo(tmp_path)
+    project = tmp_path / "project"
+    project.mkdir()
+
+    (project / ".claude").mkdir()
+    (project / ".claude/agents").write_text("legacy placeholder", encoding="utf-8")
+
+    monkeypatch.chdir(repo)
+    install_result = runner.invoke(app, ["install", str(project)])
+
+    assert install_result.exit_code == 0
+    assert "Resolved path conflicts: 1" in install_result.stdout
+    assert (project / ".claude/agents.pre-dave-codes.bak").exists()
+    assert (project / ".claude/agents/dave-architect.md").exists()
+
+
 def test_cli_uninstall_keep_modified(monkeypatch, tmp_path: Path) -> None:
     repo = _create_source_repo(tmp_path)
     project = tmp_path / "project"

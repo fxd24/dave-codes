@@ -140,13 +140,14 @@ def install_project(
 
     copied: list[str] = []
     skipped_unmanaged: list[str] = []
+    path_conflicts_resolved: list[dict[str, str]] = []
     for rel_path in resolve_framework_files(repo_root):
         src = repo_root / rel_path
         dst = project / rel_path
         if dst.exists() and rel_path not in existing_files:
             skipped_unmanaged.append(rel_path)
             continue
-        _copy_file(src, dst)
+        path_conflicts_resolved.extend(_copy_file(src, dst))
         copied.append(rel_path)
 
     manifest_files = {
@@ -172,6 +173,7 @@ def install_project(
         "project": str(project),
         "copied": sorted(copied),
         "skipped_unmanaged": sorted(skipped_unmanaged),
+        "path_conflicts_resolved": _dedupe_conflicts(path_conflicts_resolved),
         "manifest_path": str(manifest_file),
         "timestamp": timestamp,
     }
@@ -300,6 +302,7 @@ def sync_project(repo_root: Path, project_root: Path, *, now: str | None = None)
     updated: list[str] = []
     added: list[str] = []
     skipped_unmanaged: list[str] = []
+    path_conflicts_resolved: list[dict[str, str]] = []
 
     for rel_path in sorted(previous_set - source_set):
         project_file = project / rel_path
@@ -333,7 +336,7 @@ def sync_project(repo_root: Path, project_root: Path, *, now: str | None = None)
                 _backup_file(rel_path, project_file, patch_root)
                 backed_up.add(rel_path)
 
-        _copy_file(source_file, project_file)
+        path_conflicts_resolved.extend(_copy_file(source_file, project_file))
 
         if rel_path in previous_files:
             if previous_project_hash != source_hash:
@@ -364,6 +367,7 @@ def sync_project(repo_root: Path, project_root: Path, *, now: str | None = None)
         "removed": sorted(removed),
         "backed_up": sorted(backed_up),
         "skipped_unmanaged": sorted(skipped_unmanaged),
+        "path_conflicts_resolved": _dedupe_conflicts(path_conflicts_resolved),
     }
 
 
@@ -374,6 +378,7 @@ def push_project(repo_root: Path, project_root: Path) -> dict[str, Any]:
 
     changed: list[dict[str, Any]] = []
     missing_in_project: list[str] = []
+    path_conflicts_resolved: list[dict[str, str]] = []
 
     for rel_path in sorted(manifest_files):
         project_file = project / rel_path
@@ -388,7 +393,7 @@ def push_project(repo_root: Path, project_root: Path) -> dict[str, Any]:
         if source_hash == project_hash:
             continue
 
-        _copy_file(project_file, source_file)
+        path_conflicts_resolved.extend(_copy_file(project_file, source_file))
         changed.append(
             {
                 "path": rel_path,
@@ -400,19 +405,77 @@ def push_project(repo_root: Path, project_root: Path) -> dict[str, Any]:
         "project": str(project),
         "changed": changed,
         "missing_in_project": sorted(missing_in_project),
+        "path_conflicts_resolved": _dedupe_conflicts(path_conflicts_resolved),
     }
 
 
-def _copy_file(src: Path, dst: Path) -> None:
-    dst.parent.mkdir(parents=True, exist_ok=True)
+def _copy_file(src: Path, dst: Path) -> list[dict[str, str]]:
+    path_conflicts = _ensure_directory_path(dst.parent)
     shutil.copy2(src, dst)
+    return path_conflicts
 
 
 def _backup_file(rel_path: str, source_path: Path, backup_root: Path) -> Path:
     destination = backup_root / rel_path
-    destination.parent.mkdir(parents=True, exist_ok=True)
+    _ensure_directory_path(destination.parent)
     shutil.copy2(source_path, destination)
     return destination
+
+
+def _ensure_directory_path(directory: Path) -> list[dict[str, str]]:
+    path_conflicts: list[dict[str, str]] = []
+
+    missing: list[Path] = []
+    current = directory
+    while not current.exists():
+        missing.append(current)
+        parent = current.parent
+        if parent == current:
+            break
+        current = parent
+
+    if current.exists() and not current.is_dir():
+        path_conflicts.append(_replace_file_with_directory(current))
+
+    for path in reversed(missing):
+        if path.exists() and not path.is_dir():
+            path_conflicts.append(_replace_file_with_directory(path))
+            continue
+        if not path.exists():
+            path.mkdir()
+
+    return path_conflicts
+
+
+def _replace_file_with_directory(path: Path) -> dict[str, str]:
+    backup_path = _next_backup_path(path)
+    path.rename(backup_path)
+    path.mkdir()
+    return {
+        "path": str(path),
+        "backup": str(backup_path),
+    }
+
+
+def _next_backup_path(path: Path) -> Path:
+    candidate = path.with_name(f"{path.name}.pre-dave-codes.bak")
+    counter = 1
+    while candidate.exists():
+        candidate = path.with_name(f"{path.name}.pre-dave-codes.bak.{counter}")
+        counter += 1
+    return candidate
+
+
+def _dedupe_conflicts(path_conflicts: list[dict[str, str]]) -> list[dict[str, str]]:
+    deduped: list[dict[str, str]] = []
+    seen: set[tuple[str, str]] = set()
+    for conflict in path_conflicts:
+        key = (conflict["path"], conflict["backup"])
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(conflict)
+    return deduped
 
 
 def _cleanup_empty_parents(start_dir: Path, *, stop_dir: Path) -> None:

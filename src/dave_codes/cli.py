@@ -44,6 +44,14 @@ def _print_list(label: str, items: Iterable[str]) -> None:
         typer.echo(f"    {item}")
 
 
+def _print_conflicts(path_conflicts: list[dict[str, str]]) -> None:
+    if not path_conflicts:
+        return
+    typer.echo(f"Resolved path conflicts: {len(path_conflicts)}")
+    for conflict in path_conflicts:
+        typer.echo(f"  {conflict['path']} -> {conflict['backup']}")
+
+
 @app.command()
 def install(project_path: str = typer.Argument(..., help="Path to a local project repo.")) -> None:
     """First-time setup for a project and registration in .dave-installs.json."""
@@ -60,6 +68,7 @@ def install(project_path: str = typer.Argument(..., help="Path to a local projec
     typer.echo(f"Manifest: {result['manifest_path']}")
     typer.echo(f"Copied files: {len(result['copied'])}")
     typer.echo(f"Skipped existing unmanaged files: {len(result['skipped_unmanaged'])}")
+    _print_conflicts(result["path_conflicts_resolved"])
 
 
 @app.command()
@@ -173,6 +182,7 @@ def sync(
         typer.echo(f"  Removed: {len(result['removed'])}")
         typer.echo(f"  Backed up local changes: {len(result['backed_up'])}")
         typer.echo(f"  Skipped unmanaged files: {len(result['skipped_unmanaged'])}")
+        _print_conflicts(result["path_conflicts_resolved"])
 
     if had_error:
         raise typer.Exit(code=1)
@@ -198,6 +208,8 @@ def push(project_path: str = typer.Argument(..., help="Path to a local project r
         typer.echo(f"Missing in project: {len(result['missing_in_project'])}")
         for rel_path in result["missing_in_project"]:
             typer.echo(f"  {rel_path}")
+
+    _print_conflicts(result["path_conflicts_resolved"])
 
 
 if __name__ == "__main__":

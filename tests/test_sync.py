@@ -49,6 +49,26 @@ def test_install_creates_manifest_and_registers_project(tmp_path: Path) -> None:
     assert str(project.resolve()) in installs["installs"]
 
 
+def test_install_resolves_file_to_directory_conflicts(tmp_path: Path) -> None:
+    repo = _create_source_repo(tmp_path)
+    project = tmp_path / "project"
+    project.mkdir()
+
+    (project / ".claude").mkdir()
+    (project / ".claude/agents").write_text("legacy placeholder", encoding="utf-8")
+
+    result = install_project(repo, project, source_repo="local://dave-codes")
+
+    assert result["path_conflicts_resolved"] == [
+        {
+            "path": str(project / ".claude/agents"),
+            "backup": str(project / ".claude/agents.pre-dave-codes.bak"),
+        }
+    ]
+    assert (project / ".claude/agents.pre-dave-codes.bak").read_text(encoding="utf-8") == "legacy placeholder"
+    assert (project / ".claude/agents/dave-architect.md").read_text(encoding="utf-8") == "source-v1"
+
+
 def test_sync_backs_up_local_changes_and_updates_project(tmp_path: Path) -> None:
     repo = _create_source_repo(tmp_path)
     project = tmp_path / "project"
