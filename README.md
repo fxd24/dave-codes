@@ -130,6 +130,27 @@ src/dave_codes/
 
 To use Dave in your own project, copy the `.claude/` directory and run `/dave:init` to initialize project state. See the [full framework specification](.agent/README.md) for detailed documentation of every phase, agent, and design decision.
 
+## Future Work
+
+### Agent framework manager (`~/.dave/`)
+
+Right now, `dave-codes` lives in a single repo and syncs to projects from there. A natural evolution is a central location at `~/.dave/` that manages multiple agent frameworks:
+
+```
+~/.dave/
+  config.json              # registered frameworks
+  frameworks/
+    dave-codes/            # git clone
+    another-framework/     # git clone of a different system
+  installs.json            # which repos have which frameworks
+```
+
+This becomes an agent framework manager — install multiple systems, enable/disable per-project, push improvements back via PR from any project that has them installed. Think of it as a package manager for Claude Code agent workflows.
+
+### Forkable frameworks
+
+A framework like dave-codes could work like a file: there's the original that you can update from upstream, but you can also take a point-in-time snapshot, make your own copy, and optimize it for your specific needs. Your fork diverges intentionally — you're not tracking upstream anymore, you're building something new on top of a proven foundation. The sync tool could support both modes: tracking (stay in sync with upstream) and forked (independent copy, no sync relationship).
+
 ## License
 
 MIT

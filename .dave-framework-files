@@ -13,4 +13,3 @@
 .claude/skills/verify/**
 .claude/rules/context-management.md
 .claude/package.json
-.agent/README.md
