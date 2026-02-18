@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dave-codes"
+version = "0.1.0"
+description = "CLI for syncing Dave framework files across local repositories"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "typer>=0.15",
+]
+
+[project.scripts]
+dave-codes = "dave_codes.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+addopts = "-q"

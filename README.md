@@ -111,19 +111,45 @@ Credit to [Get Shit Done (GSD)](https://github.com/ai-toolchain/gsd) for the ins
   agents/           15 agent definitions
     dave-*.md         9 Dave framework agents (architect, researcher, synthesizer, etc.)
     *.md              6 generic agents (tdd-developer, code-reviewer, security-reviewer, etc.)
-  commands/dave/    13 slash commands (/dave:init through /dave:verify)
+  commands/dave/    14 slash commands (/dave:init through /dave:verify, plus /dave:sync)
   dave/             Framework core
     workflows/        Phase orchestration logic
     process/          Detailed agent instructions
     templates/        Output templates and config
     references/       Verification matrix, confidence calibration, etc.
     rules/            Codebase investigation patterns
-    bin/              Tooling (model resolution, utilities)
   skills/           4 skills (review, verify, reflect, second-opinion)
   rules/            Shared rules (context management)
+
+src/dave_codes/
+  cli.py           Typer CLI (install, uninstall, status, sync, push)
+  sync.py          File copy, backup, install registry logic
+  manifest.py      Manifest I/O and SHA256 hashing
+  framework_files.py  Framework pattern parsing and glob expansion
 ```
 
 To use Dave in your own project, copy the `.claude/` directory and run `/dave:init` to initialize project state. See the [full framework specification](.agent/README.md) for detailed documentation of every phase, agent, and design decision.
+
+## Future Work
+
+### Agent framework manager (`~/.dave/`)
+
+Right now, `dave-codes` lives in a single repo and syncs to projects from there. A natural evolution is a central location at `~/.dave/` that manages multiple agent frameworks:
+
+```
+~/.dave/
+  config.json              # registered frameworks
+  frameworks/
+    dave-codes/            # git clone
+    another-framework/     # git clone of a different system
+  installs.json            # which repos have which frameworks
+```
+
+This becomes an agent framework manager — install multiple systems, enable/disable per-project, push improvements back via PR from any project that has them installed. Think of it as a package manager for Claude Code agent workflows.
+
+### Forkable frameworks
+
+A framework like dave-codes could work like a file: there's the original that you can update from upstream, but you can also take a point-in-time snapshot, make your own copy, and optimize it for your specific needs. Your fork diverges intentionally — you're not tracking upstream anymore, you're building something new on top of a proven foundation. The sync tool could support both modes: tracking (stay in sync with upstream) and forked (independent copy, no sync relationship).
 
 ## License
 
