@@ -111,16 +111,21 @@ Credit to [Get Shit Done (GSD)](https://github.com/ai-toolchain/gsd) for the ins
   agents/           15 agent definitions
     dave-*.md         9 Dave framework agents (architect, researcher, synthesizer, etc.)
     *.md              6 generic agents (tdd-developer, code-reviewer, security-reviewer, etc.)
-  commands/dave/    13 slash commands (/dave:init through /dave:verify)
+  commands/dave/    14 slash commands (/dave:init through /dave:verify, plus /dave:sync)
   dave/             Framework core
     workflows/        Phase orchestration logic
     process/          Detailed agent instructions
     templates/        Output templates and config
     references/       Verification matrix, confidence calibration, etc.
     rules/            Codebase investigation patterns
-    bin/              Tooling (model resolution, utilities)
   skills/           4 skills (review, verify, reflect, second-opinion)
   rules/            Shared rules (context management)
+
+src/dave_codes/
+  cli.py           Typer CLI (install, uninstall, status, sync, push)
+  sync.py          File copy, backup, install registry logic
+  manifest.py      Manifest I/O and SHA256 hashing
+  framework_files.py  Framework pattern parsing and glob expansion
 ```
 
 To use Dave in your own project, copy the `.claude/` directory and run `/dave:init` to initialize project state. See the [full framework specification](.agent/README.md) for detailed documentation of every phase, agent, and design decision.
