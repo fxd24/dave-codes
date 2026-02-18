@@ -8,46 +8,30 @@ from dave_codes.cli import app
 runner = CliRunner()
 
 
-def _write(path: Path, content: str) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(content, encoding="utf-8")
-
-
-def _create_source_repo(tmp_path: Path) -> Path:
-    repo = tmp_path / "dave-codes"
-    repo.mkdir()
-    _write(repo / ".dave-framework-files", ".claude/agents/*.md\n.agent/README.md\n")
-    _write(repo / ".claude/agents/dave-architect.md", "source-v1")
-    _write(repo / ".agent/README.md", "framework-readme")
-    return repo
-
-
-def test_cli_install_and_status(monkeypatch, tmp_path: Path) -> None:
-    repo = _create_source_repo(tmp_path)
+def test_cli_install_and_status(monkeypatch, source_repo: Path, tmp_path: Path) -> None:
     project = tmp_path / "project"
     project.mkdir()
 
-    monkeypatch.chdir(repo)
+    monkeypatch.chdir(source_repo)
 
     install_result = runner.invoke(app, ["install", str(project)])
     assert install_result.exit_code == 0
-    assert "Copied files: 2" in install_result.stdout
+    assert "Copied files: 1" in install_result.stdout
 
     status_result = runner.invoke(app, ["status", str(project)])
     assert status_result.exit_code == 0
     assert "Project:" in status_result.stdout
-    assert "In sync: 2" in status_result.stdout
+    assert "In sync: 1" in status_result.stdout
 
 
-def test_cli_install_resolves_path_conflicts(monkeypatch, tmp_path: Path) -> None:
-    repo = _create_source_repo(tmp_path)
+def test_cli_install_resolves_path_conflicts(monkeypatch, source_repo: Path, tmp_path: Path) -> None:
     project = tmp_path / "project"
     project.mkdir()
 
     (project / ".claude").mkdir()
     (project / ".claude/agents").write_text("legacy placeholder", encoding="utf-8")
 
-    monkeypatch.chdir(repo)
+    monkeypatch.chdir(source_repo)
     install_result = runner.invoke(app, ["install", str(project)])
 
     assert install_result.exit_code == 0
@@ -56,15 +40,14 @@ def test_cli_install_resolves_path_conflicts(monkeypatch, tmp_path: Path) -> Non
     assert (project / ".claude/agents/dave-architect.md").exists()
 
 
-def test_cli_uninstall_keep_modified(monkeypatch, tmp_path: Path) -> None:
-    repo = _create_source_repo(tmp_path)
+def test_cli_uninstall_keep_modified(monkeypatch, source_repo: Path, tmp_path: Path, write_file) -> None:
     project = tmp_path / "project"
     project.mkdir()
 
-    monkeypatch.chdir(repo)
+    monkeypatch.chdir(source_repo)
     runner.invoke(app, ["install", str(project)])
 
-    _write(project / ".claude/agents/dave-architect.md", "local-edit")
+    write_file(project / ".claude/agents/dave-architect.md", "local-edit")
 
     uninstall_result = runner.invoke(app, ["uninstall", str(project), "--keep-modified"])
     assert uninstall_result.exit_code == 0

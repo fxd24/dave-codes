@@ -38,11 +38,12 @@ def detect_source_repo(repo_root: Path) -> str:
             check=True,
             capture_output=True,
             text=True,
+            timeout=5,
         )
         remote = result.stdout.strip()
         if remote:
             return remote
-    except (subprocess.CalledProcessError, FileNotFoundError):
+    except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired):
         pass
     return str(repo_root)
 
@@ -254,7 +255,6 @@ def status_project(repo_root: Path, project_root: Path) -> dict[str, Any]:
         expected_hash = manifest_files[rel_path].get("sha256")
 
         if not project_file.exists():
-            project_newer.append(rel_path)
             missing_in_project.append(rel_path)
             continue
 
@@ -371,14 +371,16 @@ def sync_project(repo_root: Path, project_root: Path, *, now: str | None = None)
     }
 
 
-def push_project(repo_root: Path, project_root: Path) -> dict[str, Any]:
+def push_project(repo_root: Path, project_root: Path, *, now: str | None = None) -> dict[str, Any]:
     project = project_root.resolve()
     manifest = read_manifest(project)
     manifest_files = manifest.get("files", {})
+    timestamp = now or utc_timestamp()
 
     changed: list[dict[str, Any]] = []
     missing_in_project: list[str] = []
     path_conflicts_resolved: list[dict[str, str]] = []
+    updated_manifest_files = dict(manifest_files)
 
     for rel_path in sorted(manifest_files):
         project_file = project / rel_path
@@ -400,6 +402,16 @@ def push_project(repo_root: Path, project_root: Path) -> dict[str, Any]:
                 "size": project_file.stat().st_size,
             }
         )
+        updated_manifest_files[rel_path] = file_record(project_file)
+
+    if changed:
+        new_manifest = build_manifest(
+            source_repo=manifest.get("source_repo") or detect_source_repo(repo_root),
+            installed_at=manifest.get("installed_at") or timestamp,
+            last_sync=timestamp,
+            files=updated_manifest_files,
+        )
+        write_manifest(project, new_manifest)
 
     return {
         "project": str(project),
@@ -442,7 +454,7 @@ def _ensure_directory_path(directory: Path) -> list[dict[str, str]]:
             path_conflicts.append(_replace_file_with_directory(path))
             continue
         if not path.exists():
-            path.mkdir()
+            path.mkdir(exist_ok=True)
 
     return path_conflicts
 
@@ -479,6 +491,8 @@ def _dedupe_conflicts(path_conflicts: list[dict[str, str]]) -> list[dict[str, st
 
 
 def _cleanup_empty_parents(start_dir: Path, *, stop_dir: Path) -> None:
+    if stop_dir not in start_dir.parents and start_dir != stop_dir:
+        return
     current = start_dir
     while current != stop_dir and current.is_dir():
         try:

@@ -27,18 +27,19 @@ def _repo_root() -> Path:
         raise typer.Exit(code=1) from exc
 
 
-def _resolve_project_path(raw_path: str, *, require_exists: bool = True) -> Path:
+def _resolve_project_path(raw_path: str) -> Path:
     path = Path(raw_path).expanduser()
-    if require_exists:
-        if not path.exists():
-            raise typer.BadParameter(f"Project path does not exist: {path}")
-        if not path.is_dir():
-            raise typer.BadParameter(f"Project path must be a directory: {path}")
+    if not path.exists():
+        raise typer.BadParameter(f"Project path does not exist: {path}")
+    if not path.is_dir():
+        raise typer.BadParameter(f"Project path must be a directory: {path}")
     return path.resolve()
 
 
-def _print_list(label: str, items: Iterable[str]) -> None:
+def _print_list(label: str, items: Iterable[str], *, show_if_empty: bool = False) -> None:
     item_list = list(items)
+    if not item_list and not show_if_empty:
+        return
     typer.echo(f"  {label}: {len(item_list)}")
     for item in item_list:
         typer.echo(f"    {item}")
@@ -139,7 +140,8 @@ def status(
         _print_list("Source newer", report["source_newer"])
         _print_list("Project newer", report["project_newer"])
         _print_list("Both changed", report["both_changed"])
-        _print_list("In sync", report["in_sync"])
+        _print_list("Deleted in project", report["missing_in_project"])
+        _print_list("In sync", report["in_sync"], show_if_empty=True)
 
     if had_error:
         raise typer.Exit(code=1)

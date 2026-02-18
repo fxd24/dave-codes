@@ -2,7 +2,7 @@
 
 ## Problem
 
-The Dave framework is a multi-agent development workflow for Claude Code — 88 files across `.claude/` and `.agent/` directories. It needs to be shared across multiple local projects (brainsquad, langres, future repos) with:
+The Dave framework is a multi-agent development workflow for Claude Code — 88 files across `.claude/` directories. It needs to be shared across multiple local projects (brainsquad, langres, future repos) with:
 
 1. **Install** the framework into any project with a single command
 2. **Update** projects when the framework improves upstream
@@ -26,8 +26,7 @@ The dave-codes repo is the source of truth. A Python CLI syncs framework files b
 
 ```
 ~/repos/dave-codes/              ← source of truth
-  .claude/                       ← framework files
-  .agent/                        ← framework files
+  .claude/                       ← framework files (source of truth)
   src/dave_codes/                ← CLI source
   .dave-framework-files          ← which files are framework (checked in)
   .dave-installs.json            ← where it's installed (gitignored)
@@ -159,7 +158,6 @@ Copy framework changes from project → dave-codes working tree. Run this when y
 .claude/skills/verify/**
 .claude/rules/context-management.md
 .claude/package.json
-.agent/README.md
 ```
 
 This is the single source of truth for "what is framework." Glob patterns are resolved against the dave-codes repo. When you add a new framework agent or skill, add its pattern here.
@@ -229,7 +227,6 @@ The manifest is the definitive separator. If a file is in the manifest, it's fra
 | `.claude/skills/verify/` | Verify skill |
 | `.claude/rules/context-management.md` | Context management rules |
 | `.claude/package.json` | CommonJS config |
-| `.agent/README.md` | Framework specification |
 
 ### Project-specific files (never touched by dave-codes)
 
@@ -282,8 +279,6 @@ dave-codes/                         ← repo root
     skills/                         ← 4 skills
     rules/                          ← shared rules
     package.json
-  .agent/
-    README.md                       ← framework specification
   src/dave_codes/
     __init__.py                     ← version
     cli.py                          ← typer app, 5 commands
@@ -304,7 +299,7 @@ dave-codes/                         ← repo root
     DESIGN-dave-codes-cli.md        ← this document
 ```
 
-**Key:** Framework files stay at the repo root in `.claude/` and `.agent/`. No restructuring needed. The CLI source lives alongside them in `src/`. The repo serves double duty: it IS the framework source of truth, AND it contains the sync tool.
+**Key:** Framework files stay at the repo root in `.claude/`. No restructuring needed. The CLI source lives alongside them in `src/`. The repo serves double duty: it IS the framework source of truth, AND it contains the sync tool.
 
 ## Dependencies
 
