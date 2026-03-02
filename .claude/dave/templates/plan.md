@@ -122,7 +122,10 @@ is not achieved.
      config.yaml at verification time and decides how to verify. -->
 
 <layer name="plan-conformance">
-  <!-- Goal-backward verifier checks must-haves. Runs automatically. -->
+  <!-- Standard layer — copy as-is. The verifier checks must-haves automatically.
+       Stub patterns it detects: TODO, FIXME, HACK, PLACEHOLDER, XXX,
+       raise NotImplementedError, pass (as sole body), return None/{}/[],
+       "not implemented", "coming soon", "add later". -->
   <check>Each truth verified against codebase</check>
   <check>Each artifact exists, is substantive (above min_lines), and is wired</check>
   <check>Each key link connected (import exists, call exists)</check>
@@ -130,7 +133,11 @@ is not achieved.
 </layer>
 
 <layer name="code-review">
-  <!-- Internal reviewers (always) + external models (from config.yaml). -->
+  <!-- Select reviewers based on what the plan touches:
+       - dave-code-reviewer: ALWAYS included
+       - dave-security-reviewer: auth, external input, APIs, file handling
+       - dave-data-pipeline-reviewer: Dagster assets or pipeline code
+       - dave-database-expert: schema changes or new queries -->
   <agents>{dave-code-reviewer, dave-security-reviewer, dave-data-pipeline-reviewer -- select based on what the phase touches}</agents>
   <focus>
     - {Focus area 1 -- e.g., "Gateway pattern compliance"}
@@ -152,28 +159,33 @@ is not achieved.
        go beyond them. Truths without hints are still verified. -->
 
   <verifier_guidance>
+    <!-- Write hints about CONCERNS, not COMMANDS:
+         Good: "This truth involves idempotency — running twice must not duplicate records"
+         Bad:  "Run SELECT COUNT(*) FROM table before and after"
+         Good: "Provenance metadata (provider name, model version) should be non-null"
+         Bad:  "Query the database using uv run python -c ..."
+         Omit hints for straightforward truths (file exists, tests pass).
+         The verifier verifies ALL truths regardless of whether hints exist. -->
     <hint truth="{T1}">
-      {Describe the CONCERN, not the command. E.g., "This truth involves
-      database persistence — check that records actually exist after the
-      operation. Provenance metadata (provider name, model version) should
-      be non-null." Do NOT reference specific tools, commands, or queries.}
+      {Describe the CONCERN. E.g., "This truth involves database persistence.
+      Check that records actually exist after the operation. Provenance metadata
+      (provider name, model version) should be non-null."}
     </hint>
 
     <hint truth="{T2}">
-      {Another concern. E.g., "This truth involves idempotency — running
-      the same operation twice should not create duplicate records."}
+      {E.g., "This truth involves idempotency — running the same operation
+      twice should not create duplicate records."}
     </hint>
-
-    <!-- Hints are optional. Omit for truths where the verifier needs
-         no domain guidance. The verifier verifies ALL truths regardless
-         of whether hints exist. -->
   </verifier_guidance>
 </layer>
 
 <layer name="human-oversight">
-  <!-- Things the human MUST review. Only include what cannot be
-       automated. Each checkpoint specifies what, why, evidence, and
-       criteria. -->
+  <!-- Only include what GENUINELY cannot be automated.
+       Always include for: visual output quality, user-facing message quality,
+         architectural deviations from plan, security-sensitive changes.
+       Never include for: things testable programmatically (use layer 3),
+         style already in KNOWLEDGE.md/PATTERNS.md, routine code review (layer 2).
+       Leave empty if nothing needs human review. -->
   <checkpoint>
     <what>{What the human should review}</what>
     <why>{Why this cannot be automated}</why>

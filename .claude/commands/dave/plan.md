@@ -33,7 +33,6 @@ Create a goal-backward execution plan from research findings. Combines must-have
 <execution_context>
 @./.claude/dave/workflows/plan.md
 @./.claude/dave/templates/plan.md
-@./.claude/dave/references/verification-matrix.md
 </execution_context>
 
 <process>

@@ -110,16 +110,15 @@ repeated across phases and milestones.
 
 ### Tier 1 (Human-Provided)
 
-Rules with absolute authority. Sources:
-- Direct statements from the project owner
-- Content from CLAUDE.md (imported during init)
-- Corrections given during discussion or review
-- Decisions made on OPEN_QUESTIONS.md items
+Rules with absolute authority.
+
+**Source types:** `Human`, `Human (CLAUDE.md)`, `Human (review correction)`,
+`Human (open question decision)`, `Human (discussion)`
 
 **Required fields:**
-- `[H###]` -- ID in range H001-H999
+- `[H###]` -- ID in range H001-H999 (sequential, never reused even after removal)
 - Rule text -- must be specific and actionable
-- Source -- where the rule came from
+- Source -- one of the source types above
 - Added -- date the rule was added
 - Severity -- Critical / High / Medium / Low
 
@@ -133,20 +132,23 @@ Rules with absolute authority. Sources:
 
 Patterns found during development with confidence tracking.
 
+**Source types:** `Agent (reflect)`, `Agent (code-review finding)`,
+`Agent (verification failure)`, `Agent (implementation issue)`, `Agent (research)`
+
 **Required fields:**
-- `[A###]` -- ID in range A001-A999
+- `[A###]` -- ID in range A001-A999 (sequential, never reused)
 - Rule text -- must be specific and actionable
-- Source -- which agent/phase discovered it
+- Source -- one of the source types above
 - Added -- date the entry was added
 - Confidence -- HIGH / MEDIUM / LOW
 - Verified -- number of independent confirmations
 - Promoted -- whether it has been promoted to Tier 1
 
 **Optional fields:**
-- Promotion candidate -- flagged when verified count exceeds threshold
+- Promotion candidate -- flagged when verified count exceeds `tier2_promotion_threshold` from config.yaml
 
 **Confidence criteria:**
-- HIGH: Confirmed by multiple independent verification events
+- HIGH: Confirmed by multiple independent verification events, or backed by official docs
 - MEDIUM: Confirmed once, consistent with project patterns
 - LOW: Observed once, may be context-specific
 
@@ -177,7 +179,39 @@ Phase level (specific)          Milestone level (scoped)         Project level (
   tech is used project-wide)
 - Requires: Human approval for all Tier 1 additions or promotions
 
+**Aggregation is lossy.** Target sizes: Phase 5-15 entries, Milestone 5-10,
+Project 10-30. If project KNOWLEDGE.md exceeds 50 entries, it becomes noise.
+
 </aggregation>
+
+<promotion>
+
+### Promotion Process (Tier 2 -> Tier 1)
+
+**Eligibility:** Verified count exceeds `tier2_promotion_threshold` (config.yaml,
+default: 3), pattern observed in multiple contexts (not one edge case).
+
+**Process:**
+1. Reflect identifies eligible entries, generalizes rule text if needed
+2. Proposes promotion as diff for human review
+3. Human approves (add to project KNOWLEDGE.md as Tier 1), modifies, or rejects
+4. Original Tier 2 entry marked `Promoted: Yes` with reference to new Tier 1 ID
+
+**ID rules:** Promoted entries get a NEW ID at the target scope. When phase-level
+A005 promotes to project Tier 1, it becomes H00N (next available). IDs are unique
+within scope, sequential, and never reused.
+
+</promotion>
+
+<edge_cases>
+
+### Edge Cases
+
+- **Entry fits multiple categories:** Classify by highest-severity impact
+- **Tier 2 contradicts Tier 1:** Tier 1 always wins. Flag contradiction for human review
+- **Same pattern exists at phase and project level:** Increment project entry's Verified count, do not duplicate
+
+</edge_cases>
 
 <good_vs_bad>
 

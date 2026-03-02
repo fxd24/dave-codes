@@ -36,7 +36,6 @@ Run the learning loop after a phase completes. Extracts knowledge from plan vs a
 @./.claude/dave/workflows/reflect.md
 @./.claude/dave/templates/summary.md
 @./.claude/dave/templates/knowledge.md
-@./.claude/dave/references/knowledge-format.md
 </execution_context>
 
 <process>
