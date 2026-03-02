@@ -85,6 +85,25 @@ Show this command reference.
 
 Usage: `/dave:help`
 
+### Expert Consultation
+
+**`/dave:expert [problem or topic]`**
+Expert consultation mode — deep analysis, tradeoffs, opinionated recommendations, user-driven decisions.
+
+- Understands the problem before proposing solutions (reads code, docs, context)
+- Researches best practices when needed (web, codebase, project rules)
+- Presents multiple viable approaches with concrete tradeoffs
+- Gives opinionated recommendations but asks for your input before assuming a direction
+- Flags DRY violations, testing gaps, and over/under-engineering
+- Does NOT write code — consultation only, implementation follows via `/dave:quick` or full workflow
+
+Usage:
+```
+/dave:expert "Should we use a queue or polling for PDF processing?"
+/dave:expert "How should we handle rate limiting across multiple workers?"
+/dave:expert @problem-description.md
+```
+
 ### Quick Mode
 
 **`/dave:quick "task description" [--skip-review] [--no-commit]`**

@@ -182,8 +182,12 @@ After synthesizing, assess **each deduplicated finding** and categorize it into 
 
 ## Output Format
 
+**Be concise about what's good, detailed about what needs fixing.**
+
+The developer reads this review to find what to fix — long lists of "this is fine" waste their time. When a dimension (architecture, security, code quality, tests) has no issues, give it ONE line max. Reserve detail and thoroughness for things that need to change.
+
 ```markdown
-## Comprehensive Code Review: {target}
+## Code Review: {target}
 
 ### Review Sources
 - [x] code-reviewer (Claude)
@@ -192,45 +196,37 @@ After synthesizing, assess **each deduplicated finding** and categorize it into 
 - [x] OpenCode kimi-k2.5-free
 - [x] OpenCode glm-4.7-free
 
-### Critical Issues (consensus)
-[Issues found by multiple reviewers]
+### Quick Assessment
+Architecture: [one line — "clean" / "gateway discipline maintained" / issue summary]
+Security: [one line — "no concerns" / issue summary]
+Code quality: [one line — "good" / issue summary]
+Tests: [one line — "thorough" / issue summary]
 
-### High Priority
-[Significant issues]
+### Findings
 
-### Architecture & Design
-[From code-reviewer + external perspectives]
-
-### Security Concerns
-[From security-reviewer + external perspectives]
-
-### Code Quality
-[Patterns, maintainability, cognitive load]
-
-### Divergent Opinions
-[Where reviewers disagreed - worth considering both views]
-
-### Triage Assessment
+[Only list actual issues. If no issues, say "No issues found." and skip to Recommended Actions.]
 
 | # | Finding | Source(s) | Severity | Assessment | Rationale |
 |---|---------|-----------|----------|------------|-----------|
 | 1 | [Brief description] | code-reviewer, Codex | Critical | **Fix now** | [Why this needs immediate attention] |
-| 2 | [Brief description] | security-reviewer | High | **Fix now** | [Why this is blocking] |
-| 3 | [Brief description] | Codex, Kimi | Medium | **Defer to issue** | [Valid but not blocking; suggest issue title] |
-| 4 | [Brief description] | GLM | Low | **False positive** | [Why this doesn't apply] |
-| ... | ... | ... | ... | ... | ... |
+| 2 | [Brief description] | Codex, Kimi | Medium | **Defer to issue** | [Valid but not blocking; suggest issue title] |
+| 3 | [Brief description] | GLM | Low | **False positive** | [Why this doesn't apply] |
 
-**Summary:**
-- **Fix now:** X findings (must address before merging)
-- **Defer to issue:** Y findings (create GitHub issues)
-- **False positives:** Z findings (dismissed)
+**Triage:** X fix now · Y defer to issue · Z false positives
 
-> Review the triage above. Let me know if you want to reclassify any findings before I proceed with fixes or issue creation.
+> Let me know if you want to reclassify any findings before I proceed.
 
 ### Recommended Actions
+[Omit if verdict is SHIP IT.]
 1. [Highest priority fix]
 2. [Next priority]
-...
+
+### Verdict
+[ONE of the following — pick based on triage results above]
+- ✅ **SHIP IT** — No issues found across all reviewers. Merge away.
+- ✅ **GOOD — merge with nits** — Minor suggestions only, nothing blocking.
+- ⚠️ **NEEDS WORK** — Has "fix now" items that must be addressed before merging.
+- 🚨 **DO NOT MERGE** — Critical bugs, security issues, or broken functionality.
 ```
 
 ## External Review Prompt Template

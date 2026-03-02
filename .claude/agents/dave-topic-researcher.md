@@ -38,6 +38,7 @@ tools:
   - Grep
   - WebSearch
   - WebFetch
+model: sonnet
 color: green
 ---
 

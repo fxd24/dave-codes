@@ -45,6 +45,7 @@ tools:
   - Glob
   - Write
   - Edit
+model: sonnet
 color: magenta
 ---
 

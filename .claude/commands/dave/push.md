@@ -35,8 +35,6 @@ Push the feature branch and create a pull request with a structured description 
 
 <execution_context>
 @./.claude/dave/workflows/push.md
-@./.claude/dave/templates/verification.md
-@./.claude/dave/templates/reviews.md
 </execution_context>
 
 <process>

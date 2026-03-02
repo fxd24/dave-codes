@@ -34,9 +34,6 @@ Run parallel code reviews (internal + external models), aggregate findings intel
 
 <execution_context>
 @./.claude/dave/workflows/review.md
-@./.claude/dave/templates/reviews.md
-@./.claude/dave/templates/open-questions.md
-@./.claude/dave/references/verification-matrix.md
 </execution_context>
 
 <process>
