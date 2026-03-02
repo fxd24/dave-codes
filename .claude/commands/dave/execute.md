@@ -34,7 +34,6 @@ Execute the approved plan using strict TDD with wave-based parallelism. Each tas
 
 <execution_context>
 @./.claude/dave/workflows/execute.md
-@./.claude/dave/templates/plan.md
 </execution_context>
 
 <process>
