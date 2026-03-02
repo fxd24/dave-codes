@@ -44,7 +44,7 @@ and why. Judgment is the reviewer's job.
 </role>
 
 <downstream>
-**Who reads this:** Reviewer agents (code-reviewer, security-reviewer, data-pipeline-reviewer) and dave-review-aggregator.
+**Who reads this:** Reviewer agents (dave-code-reviewer, dave-security-reviewer, dave-data-pipeline-reviewer) and dave-review-aggregator.
 **What they need:** Semantic change descriptions mapped to plan tasks, per-reviewer focus areas, and flagged concerns. Your summary replaces the raw diff in their prompts.
 **What they can't do themselves:** Parse full diffs within their context budget or map changes to plan intent without PLAN.md.
 </downstream>

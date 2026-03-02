@@ -39,16 +39,16 @@
 
 ## Suggested Review Focus
 
-### For code-reviewer
+### For dave-code-reviewer
 - {focus_area_with_file_references}
 
-### For security-reviewer
+### For dave-security-reviewer
 - {focus_area}
 
-### For data-pipeline-reviewer
+### For dave-data-pipeline-reviewer
 - {focus_area}
 
-### For database-expert
+### For dave-database-expert
 - {focus_area}
 
 ### For external models

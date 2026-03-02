@@ -136,11 +136,11 @@ Use session.execute() for SQLAlchemy queries
 
 ```yaml
 # BAD - No skills field
-name: code-reviewer
+name: dave-code-reviewer
 tools: Read, Grep, Glob, Bash
 
 # GOOD - Explicit skills
-name: code-reviewer
+name: dave-code-reviewer
 tools: Read, Grep, Glob, Bash
 skills: dagster, migrations
 ```

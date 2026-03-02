@@ -186,14 +186,14 @@ Launch internal reviewer agents in PARALLEL. Each reviewer runs independently. T
 
 ### 3a. Determine Which Internal Reviewers
 
-From the `<agents>` field in the code-review layer. Always includes `code-reviewer`. Others are selected based on what the phase touches:
+From the `<agents>` field in the code-review layer. Always includes `dave-code-reviewer`. Others are selected based on what the phase touches:
 
 | Agent | When Selected | Subagent Type |
 |-------|---------------|---------------|
-| `code-reviewer` | Always | `code-reviewer` |
-| `security-reviewer` | Plan includes auth, external input, API endpoints, file handling | `security-reviewer` |
-| `data-pipeline-reviewer` | Plan touches Dagster assets or pipeline code | `data-pipeline-reviewer` |
-| `database-expert` | Plan includes schema changes or new queries | `database-expert` |
+| `dave-code-reviewer` | Always | `dave-code-reviewer` |
+| `dave-security-reviewer` | Plan includes auth, external input, API endpoints, file handling | `dave-security-reviewer` |
+| `dave-data-pipeline-reviewer` | Plan touches Dagster assets or pipeline code | `dave-data-pipeline-reviewer` |
+| `dave-database-expert` | Plan includes schema changes or new queries | `dave-database-expert` |
 
 ### 3b. Launch Each Internal Reviewer
 
@@ -629,7 +629,7 @@ For each fix task, launch a TDD executor agent with:
 - The original finding for context
 - Clear instruction: "This is a SCOPED fix — address ONLY the specific finding. Do not refactor surrounding code."
 
-After each fix, launch a `practical-verifier` to confirm the fix.
+After each fix, launch a `dave-practical-verifier` to confirm the fix.
 
 Commit each fix atomically:
 ```

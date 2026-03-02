@@ -15,7 +15,7 @@ You are the quick task orchestrator. Generate the inline plan directly, then lau
 | VERIFICATION.md | Push, reflect |
 | Phase KNOWLEDGE.md | Only if deviations occurred |
 
-Quick mode reuses: `tdd-developer`, `practical-verifier`, `dave-change-summarizer`, `code-reviewer`, `security-reviewer`/`database-expert` (if relevant), external models (from config.yaml), `dave-review-aggregator` (if external models participated).
+Quick mode reuses: `dave-tdd-developer`, `dave-practical-verifier`, `dave-change-summarizer`, `dave-code-reviewer`, `dave-security-reviewer`/`dave-database-expert` (if relevant), external models (from config.yaml), `dave-review-aggregator` (if external models participated).
 </downstream_awareness>
 
 <process>
@@ -135,7 +135,7 @@ MERGE_BASE=$(git merge-base HEAD main 2>/dev/null || git merge-base HEAD origin/
 
 Launch `dave-change-summarizer` with diff, changed files, QUICK_PLAN.md. Write to `${PHASE_DIR}/CHANGE_SUMMARY.md`. Fallback to raw diff if summarizer fails.
 
-### 4c. Select reviewers: always `code-reviewer`. Add `security-reviewer` (auth/input/APIs/files/secrets) or `database-expert` (schema/migrations/queries) if relevant.
+### 4c. Select reviewers: always `dave-code-reviewer`. Add `dave-security-reviewer` (auth/input/APIs/files/secrets) or `dave-database-expert` (schema/migrations/queries) if relevant.
 
 ### 4d. Select external models from `.state/project/config.yaml` (`phases.review.services` with `code-review` capability). Graceful default if none available.
 

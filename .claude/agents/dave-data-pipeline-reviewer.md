@@ -1,12 +1,12 @@
 ---
-name: data-pipeline-reviewer
+name: dave-data-pipeline-reviewer
 description: |
   Use this agent when reviewing Dagster assets, pipeline code, or data processing logic. Specializes in asset dependencies, failure handling, data quality, and pipeline orchestration patterns. Invoke after implementing or modifying pipeline assets.
 
   <example>
   Context: User implemented a new Dagster asset
   user: "I've added the org_pdf_extract asset"
-  assistant: "Let me use the data-pipeline-reviewer to verify the asset follows pipeline best practices."
+  assistant: "Let me use the dave-data-pipeline-reviewer to verify the asset follows pipeline best practices."
   <commentary>
   The agent will check: dependency graph, failure handling, partition compatibility, and data quality patterns.
   </commentary>

@@ -547,8 +547,8 @@ Use AskUserQuestion to determine how to proceed with each gap.
 
 For each gap to fix:
 1. Create a focused fix task (Files, Action, Verify, Done)
-2. Launch tdd-developer for the fix
-3. Launch practical-verifier after the fix
+2. Launch dave-tdd-developer for the fix
+3. Launch dave-practical-verifier after the fix
 4. Commit the fix atomically:
    ```
    fix({phase}-verify): {gap description}

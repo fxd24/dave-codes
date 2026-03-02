@@ -27,6 +27,6 @@ Before starting any multi-step task, evaluate whether it can be decomposed into 
 **Checklist before execution:**
 1. Can this task be split into 2+ independent pieces? (e.g., tests + implementation skeleton, or multiple independent file changes)
 2. Are there operations that can run concurrently? (e.g., multiple TDD agents for independent tasks in the same wave)
-3. Can review agents run in parallel? (internal code-reviewer + external models)
+3. Can review agents run in parallel? (internal dave-code-reviewer + external models)
 
 **Anti-pattern:** Running tasks sequentially when they have no dependencies on each other.

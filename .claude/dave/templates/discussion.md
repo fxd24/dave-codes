@@ -7,8 +7,8 @@ Template for `.state/milestones/{slug}/phases/{N}/DISCUSSION.md` -- captures sco
 **Downstream consumers:**
 - `research` (Phase 2) -- Reads identified research topics to know WHAT to investigate
 - `planner` (Phase 3) -- Reads scope, decisions, and constraints to create an executable plan
-- `tdd-developer` (Phase 4) -- Reads success criteria to understand WHAT "done" looks like
-- `code-reviewer` (Phase 5) -- Reads constraints to check compliance
+- `dave-tdd-developer` (Phase 4) -- Reads success criteria to understand WHAT "done" looks like
+- `dave-code-reviewer` (Phase 5) -- Reads constraints to check compliance
 - `verifier` (Phase 6) -- Reads success criteria to verify goal achievement
 
 ---

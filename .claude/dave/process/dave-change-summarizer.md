@@ -147,17 +147,17 @@ Write CHANGE_SUMMARY.md to the phase directory using this format:
 <!-- Guidance for each reviewer type on what is most relevant to them.
      This allows reviewers to prioritize their time. -->
 
-### For code-reviewer
+### For dave-code-reviewer
 - {Focus area 1 with file references}
 - {Focus area 2 with file references}
 
-### For security-reviewer (if applicable)
+### For dave-security-reviewer (if applicable)
 - {Focus area 1}
 
-### For data-pipeline-reviewer (if applicable)
+### For dave-data-pipeline-reviewer (if applicable)
 - {Focus area 1}
 
-### For database-expert (if applicable)
+### For dave-database-expert (if applicable)
 - {Focus area 1}
 
 ### For external models

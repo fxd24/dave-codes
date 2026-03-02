@@ -82,7 +82,7 @@ Internal reviewers (always) plus external models (from config.yaml). This layer 
 
 ```xml
 <layer name="code-review">
-  <agents>code-reviewer, security-reviewer</agents>
+  <agents>dave-code-reviewer, dave-security-reviewer</agents>
   <focus>
     - Gateway pattern compliance (all external calls through gateways)
     - 3-phase DB pattern (no connections held during network I/O)
@@ -97,7 +97,7 @@ Internal reviewers (always) plus external models (from config.yaml). This layer 
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `<agents>` | Yes | Comma-separated list of internal reviewer agents to invoke. `code-reviewer` is always present. Others are selected based on what the phase touches. |
+| `<agents>` | Yes | Comma-separated list of internal reviewer agents to invoke. `dave-code-reviewer` is always present. Others are selected based on what the phase touches. |
 | `<focus>` | Yes | Bullet list of specific areas reviewers should focus on. These come from the plan's understanding of what was built and what project patterns apply. |
 | `<external>` | No | Comma-separated list of external review model names from config.yaml. |
 | `<skip_external_if>` | No | Condition under which external reviews are skipped (to save cost on small changes). |
@@ -106,10 +106,10 @@ Internal reviewers (always) plus external models (from config.yaml). This layer 
 
 | Agent | When Selected | Focus |
 |-------|---------------|-------|
-| `code-reviewer` | Always | Architecture, patterns, conventions, cognitive load |
-| `security-reviewer` | Plan includes auth, external input, API endpoints, or file handling | OWASP Top 10, secrets, injection, auth/authz |
-| `data-pipeline-reviewer` | Plan touches Dagster assets or pipeline code | Asset dependencies, idempotency, failure semantics |
-| `database-expert` | Plan includes schema changes or new queries | Schema design, migration safety, query performance |
+| `dave-code-reviewer` | Always | Architecture, patterns, conventions, cognitive load |
+| `dave-security-reviewer` | Plan includes auth, external input, API endpoints, or file handling | OWASP Top 10, secrets, injection, auth/authz |
+| `dave-data-pipeline-reviewer` | Plan touches Dagster assets or pipeline code | Asset dependencies, idempotency, failure semantics |
+| `dave-database-expert` | Plan includes schema changes or new queries | Schema design, migration safety, query performance |
 
 ### External Model Invocation
 

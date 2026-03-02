@@ -13,7 +13,7 @@ allowed-tools:
   - AskUserQuestion
 ---
 <objective>
-Execute the approved plan using strict TDD with wave-based parallelism. Each task gets its own tdd-developer agent (RED-GREEN-REFACTOR), followed by practical-verifier for real-world validation. Commits atomically per task.
+Execute the approved plan using strict TDD with wave-based parallelism. Each task gets its own dave-tdd-developer agent (RED-GREEN-REFACTOR), followed by dave-practical-verifier for real-world validation. Commits atomically per task.
 
 **Requires:**
 - PLAN.md approved by user (from `/dave:plan`)

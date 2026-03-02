@@ -1,12 +1,12 @@
 ---
-name: database-expert
+name: dave-database-expert
 description: |
   PostgreSQL specialist for schema design, migrations, and query optimization. Provides recommendations and SQL - does NOT create files directly. Auto-invoke for "design table", "create migration", "slow query", "database schema", "add column", "optimize query".
 
   <example>
   Context: User needs to add a new column to track organization verification status
   user: "I need to add a verified_at timestamp to organizations"
-  assistant: "I'll use the database-expert agent to design the schema change and migration."
+  assistant: "I'll use the dave-database-expert agent to design the schema change and migration."
   <commentary>
   The agent will recommend the column definition, provide migration SQL (up + down), and advise on safe deployment (nullable first, then backfill).
   </commentary>
@@ -15,7 +15,7 @@ description: |
   <example>
   Context: User reports a slow query in the dashboard
   user: "The organization list page is taking 5 seconds to load"
-  assistant: "Let me invoke the database-expert agent to analyze and optimize the slow query."
+  assistant: "Let me invoke the dave-database-expert agent to analyze and optimize the slow query."
   <commentary>
   The agent will run EXPLAIN ANALYZE, identify missing indexes or N+1 patterns, and recommend specific optimizations.
   </commentary>
@@ -363,6 +363,6 @@ After database work, consider:
 
 1. **Schema ready?** - Exit agent, create migration files
 2. **Need code changes?** - Recommend updates to repository layer
-3. **Security concerns?** - Recommend **security-reviewer** for SQL injection check
+3. **Security concerns?** - Recommend **dave-security-reviewer** for SQL injection check
 4. **Performance issues?** - Run EXPLAIN ANALYZE, add indexes
 5. **Vector search affected?** - Run `make vector-search-ingest-postgres`

@@ -5,9 +5,9 @@ Template for `.state/milestones/{slug}/phases/{N}/PLAN.md` -- the execution cont
 **Purpose:** Combine goal-backward must-haves, prescriptive tasks organized in dependency waves, and a verification matrix that defines WHAT must be verified and provides guidance for the autonomous verifier. This is the single source of truth for what gets built and how we prove it works.
 
 **Downstream consumers:**
-- `tdd-developer` (Phase 4) -- Reads its specific task (files, action, verify, done)
-- `practical-verifier` (Phase 4) -- Reads task verify criteria
-- `code-reviewer` (Phase 5) -- Reads the code-review layer focus areas
+- `dave-tdd-developer` (Phase 4) -- Reads its specific task (files, action, verify, done)
+- `dave-practical-verifier` (Phase 4) -- Reads task verify criteria
+- `dave-code-reviewer` (Phase 5) -- Reads the code-review layer focus areas
 - `review-aggregator` (Phase 5) -- Reads must-haves to understand intent
 - `verifier` (Phase 6) -- Reads truths (contract) and hints (guidance), autonomously verifies each truth
 - `reflect` (Phase 8) -- Compares plan vs actual to extract learnings
@@ -73,7 +73,7 @@ is not achieved.
 ## Task Breakdown
 
 ### Wave 1: {wave description}
-<!-- Independent tasks that can run in parallel (separate tdd-developer agents). -->
+<!-- Independent tasks that can run in parallel (separate dave-tdd-developer agents). -->
 
 #### Task 1.1: {task name}
 - **Files:** {exact paths created or modified}
@@ -131,7 +131,7 @@ is not achieved.
 
 <layer name="code-review">
   <!-- Internal reviewers (always) + external models (from config.yaml). -->
-  <agents>{code-reviewer, security-reviewer, data-pipeline-reviewer -- select based on what the phase touches}</agents>
+  <agents>{dave-code-reviewer, dave-security-reviewer, dave-data-pipeline-reviewer -- select based on what the phase touches}</agents>
   <focus>
     - {Focus area 1 -- e.g., "Gateway pattern compliance"}
     - {Focus area 2 -- e.g., "3-phase DB pattern"}
@@ -258,7 +258,7 @@ is not achieved.
 - Wave 1 contains all independent tasks (no dependencies)
 - Each subsequent wave depends only on previous waves
 - No cycles allowed
-- Independent tasks within a wave run as parallel tdd-developer agents
+- Independent tasks within a wave run as parallel dave-tdd-developer agents
 
 **Verification matrix quality:**
 - All four layers present

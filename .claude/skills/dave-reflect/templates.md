@@ -29,12 +29,12 @@ Example outputs from the reflect skill. Use these as reference for format and de
 
 | Agent           | Spawns | Effectiveness | Issues                                          |
 | --------------- | ------ | ------------- | ----------------------------------------------- |
-| database-expert | 1      | Poor          | Missing migrations skill, wrote raw DDL instead |
-| code-reviewer   | 1      | Good          | Caught missing data validation                  |
+| dave-database-expert | 1      | Poor          | Missing migrations skill, wrote raw DDL instead |
+| dave-code-reviewer   | 1      | Good          | Caught missing data validation                  |
 
 **Recommended changes:**
 
-- [ ] database-expert: Add `skills: migrations` to inherit project patterns
+- [ ] dave-database-expert: Add `skills: migrations` to inherit project patterns
 
 ### Hook Analysis
 
@@ -43,9 +43,9 @@ No hooks triggered during this session.
 ### Failure Patterns Detected
 
 1. **SA-001: Missing Skills Inheritance**
-   - Occurrences: 1 (database-expert)
+   - Occurrences: 1 (dave-database-expert)
    - Impact: High - raw DDL instead of Alembic migration
-   - Fix: Add migrations to database-expert skills field
+   - Fix: Add migrations to dave-database-expert skills field
 
 2. **SK-002: Missing Trigger Terms**
    - Occurrences: 1 (migrations)
@@ -58,12 +58,12 @@ Before applying changes, verify:
 
 - [x] Existing trigger terms still work (tested: "migration", "alembic")
 - [x] No skills/agents become orphaned
-- [ ] Tool restrictions don't break current workflows (need to verify database-expert)
+- [ ] Tool restrictions don't break current workflows (need to verify dave-database-expert)
 - [x] Changes don't conflict with other skills
 
 ### Actionable Improvements
 
-1. [ ] Edit `.claude/agents/database-expert.md`: Add `skills: migrations`
+1. [ ] Edit `.claude/agents/dave-database-expert.md`: Add `skills: migrations`
 2. [ ] Edit `.claude/skills/migrations/SKILL.md`: Add trigger terms to description
 ```
 
@@ -142,7 +142,7 @@ None - skills appropriately invoked.
 
 | Agent           | Spawns | Effectiveness | Issues |
 | --------------- | ------ | ------------- | ------ |
-| database-expert | 1      | Good          | Reviewed migration correctly |
+| dave-database-expert | 1      | Good          | Reviewed migration correctly |
 
 **Recommended changes:**
 None - agent performed as expected.
@@ -166,7 +166,7 @@ Session completed successfully. No improvements needed.
 **Positive patterns to preserve:**
 
 - migrations skill correctly identified for schema change
-- database-expert reviewed migration before apply
+- dave-database-expert reviewed migration before apply
 - No over-spawning of agents for simple task
 ```
 

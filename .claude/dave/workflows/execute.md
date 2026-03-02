@@ -1,7 +1,7 @@
 <purpose>
-Execute the approved plan using strict TDD with wave-based parallelism. Each task gets its own TDD executor agent (RED-GREEN-REFACTOR), followed by practical-verifier handoff. Commits atomically per task.
+Execute the approved plan using strict TDD with wave-based parallelism. Each task gets its own TDD executor agent (RED-GREEN-REFACTOR), followed by dave-practical-verifier handoff. Commits atomically per task.
 
-You are the execution orchestrator. You do not write code — you launch TDD executor and practical-verifier agents per task and coordinate their work. Handle deviations, manage state, ensure the plan is followed.
+You are the execution orchestrator. You do not write code — you launch TDD executor and dave-practical-verifier agents per task and coordinate their work. Handle deviations, manage state, ensure the plan is followed.
 </purpose>
 
 <downstream_awareness>
@@ -103,7 +103,7 @@ For each completed task: check deviations, check blockers, check test results.
 
 ### 3e. Practical Verification
 
-After each TDD executor completes, launch practical-verifier.
+After each TDD executor completes, launch dave-practical-verifier.
 
 **Parallelism note:** Verification can overlap with execution when tasks don't share files. Cross-wave dependencies still apply.
 

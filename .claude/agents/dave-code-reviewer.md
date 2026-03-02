@@ -1,5 +1,5 @@
 ---
-name: code-reviewer
+name: dave-code-reviewer
 description: |
   Use this agent when code has been written and needs review before being considered complete. This includes after implementing new features, refactoring existing code, fixing bugs, or making any significant changes to the codebase. The agent should be invoked proactively after completing logical chunks of work to catch issues early.
 
@@ -8,7 +8,7 @@ description: |
   user: "Add a method to OrganizationService that finds organizations by their homepage domain"
   assistant: "I'll implement the find_by_homepage_domain method in OrganizationService:"
   <implementation completed>
-  assistant: "Now let me use the code-reviewer agent to review the implementation for design patterns, error handling, and alignment with project conventions."
+  assistant: "Now let me use the dave-code-reviewer agent to review the implementation for design patterns, error handling, and alignment with project conventions."
   </example>
 
   <example>
@@ -16,7 +16,7 @@ description: |
   user: "Fix the bug where duplicate funders are being created"
   assistant: "I've identified and fixed the issue in the funder creation logic:"
   <fix implemented>
-  assistant: "Let me invoke the code-reviewer agent to ensure this fix follows best practices and doesn't introduce regressions."
+  assistant: "Let me invoke the dave-code-reviewer agent to ensure this fix follows best practices and doesn't introduce regressions."
   </example>
 
   <example>
@@ -24,7 +24,7 @@ description: |
   user: "Refactor the web search service to support multiple providers"
   assistant: "I've refactored WebSearchService to use a provider pattern:"
   <refactoring completed>
-  assistant: "I'll use the code-reviewer agent to verify the refactoring maintains clean architecture principles and proper separation of concerns."
+  assistant: "I'll use the dave-code-reviewer agent to verify the refactoring maintains clean architecture principles and proper separation of concerns."
   </example>
 tools: Read, Grep, Glob, Bash
 disallowedTools: Write, Edit

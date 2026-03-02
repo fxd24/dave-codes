@@ -200,7 +200,7 @@ Usage:
 TDD implementation with wave-based parallelism and atomic commits.
 
 - Executes tasks from the approved plan using strict TDD (RED → GREEN → REFACTOR)
-- Each task gets its own tdd-developer agent
+- Each task gets its own dave-tdd-developer agent
 - Tasks within a wave run in parallel, waves run sequentially
 - Practical-verifier validates each task before committing
 - Handles deviations per plan deviation rules (auto-fix vs stop-and-ask)

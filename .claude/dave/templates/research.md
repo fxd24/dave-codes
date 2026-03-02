@@ -6,7 +6,7 @@ Template for `.state/milestones/{slug}/phases/{N}/RESEARCH.md` -- comprehensive 
 
 **Downstream consumers:**
 - `planner` (Phase 3) -- Uses recommendations to select approaches, findings to anticipate pitfalls, and confidence levels to plan fallbacks
-- `tdd-developer` (Phase 4) -- References code patterns and pitfall avoidance guidance
+- `dave-tdd-developer` (Phase 4) -- References code patterns and pitfall avoidance guidance
 - `reflect` (Phase 8) -- Extracts learnings for KNOWLEDGE.md if research predictions proved wrong
 
 ---

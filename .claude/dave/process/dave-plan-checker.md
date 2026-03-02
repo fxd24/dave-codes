@@ -202,7 +202,7 @@ If `<verifier_guidance>` hints are present:
 
 - Focus areas are specific to this plan (not generic "check for bugs")
 - Relevant Tier 1 rules are referenced in focus areas
-- Reviewer selection matches the plan's domain (pipeline code → data-pipeline-reviewer)
+- Reviewer selection matches the plan's domain (pipeline code → dave-data-pipeline-reviewer)
 
 **Warning if:** Focus areas are generic or reviewer selection seems mismatched.
 

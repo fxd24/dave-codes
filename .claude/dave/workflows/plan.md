@@ -141,10 +141,10 @@ Select reviewers based on what the plan touches:
 
 | Plan touches... | Include |
 |----------------|---------|
-| Any code | `code-reviewer` |
-| Auth, external input, APIs, file handling | `security-reviewer` |
-| Dagster assets / pipeline | `data-pipeline-reviewer` |
-| Schema / DB queries | `database-expert` |
+| Any code | `dave-code-reviewer` |
+| Auth, external input, APIs, file handling | `dave-security-reviewer` |
+| Dagster assets / pipeline | `dave-data-pipeline-reviewer` |
+| Schema / DB queries | `dave-database-expert` |
 
 Write focus areas specific to THIS plan, referencing Tier 1 rules and research pitfalls.
 

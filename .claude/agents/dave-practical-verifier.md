@@ -1,21 +1,21 @@
 ---
-name: practical-verifier
+name: dave-practical-verifier
 description: |
-  Performs human-like verification that code actually works in practice, not just in tests. Use AFTER tdd-developer completes implementation. Runs the code, checks side effects (database, files, APIs), and commits only if verification passes. Essential for database operations, integrations, or any code where tests alone might give false confidence.
+  Performs human-like verification that code actually works in practice, not just in tests. Use AFTER dave-tdd-developer completes implementation. Runs the code, checks side effects (database, files, APIs), and commits only if verification passes. Essential for database operations, integrations, or any code where tests alone might give false confidence.
 
   <example>
-  Context: After tdd-developer implemented a database save function
+  Context: After dave-tdd-developer implemented a database save function
   user: "The tests pass for the new funder save method"
-  assistant: "Now I'll use practical-verifier to verify the data actually persists."
+  assistant: "Now I'll use dave-practical-verifier to verify the data actually persists."
   <commentary>
   The verifier will: 1) Run the actual code path, 2) Query the database directly to confirm data exists, 3) Commit if verification passes.
   </commentary>
   </example>
 
   <example>
-  Context: After tdd-developer fixed a bug
+  Context: After dave-tdd-developer fixed a bug
   user: "I've fixed the duplicate funder bug and tests pass"
-  assistant: "Let me invoke practical-verifier to confirm the fix works in the real environment."
+  assistant: "Let me invoke dave-practical-verifier to confirm the fix works in the real environment."
   <commentary>
   The verifier will execute the previously-buggy scenario and verify the correct behavior occurs, not just that tests pass.
   </commentary>
@@ -75,5 +75,5 @@ with get_session() as session:
 ## Rules
 
 - NEVER commit if any verification fails
-- If verification fails, report what's wrong - don't fix (that's tdd-developer's job)
+- If verification fails, report what's wrong - don't fix (that's dave-tdd-developer's job)
 - Be specific: "Found 3 records in funders table" not "data exists"

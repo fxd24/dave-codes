@@ -1,13 +1,7 @@
-.claude/agents/code-reviewer.md
-.claude/agents/data-pipeline-reviewer.md
-.claude/agents/database-expert.md
 .claude/agents/dave-*.md
-.claude/agents/practical-verifier.md
-.claude/agents/security-reviewer.md
-.claude/agents/tdd-developer.md
 .claude/commands/dave/**
 .claude/dave/**
-.claude/skills/reflect/**
+.claude/skills/dave-reflect/**
 .claude/skills/review/**
 .claude/skills/second-opinion/**
 .claude/skills/verify/**

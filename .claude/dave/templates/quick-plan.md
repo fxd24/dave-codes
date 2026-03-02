@@ -5,9 +5,9 @@ Template for `.state/milestones/adhoc/phases/{slug}/QUICK_PLAN.md` -- a lightwei
 **Purpose:** Provide just enough structure for TDD execution, review, and verification to work without the full PLAN.md ceremony. This is a compact task specification generated directly by the orchestrator (no plan-checker agent, no user approval gate).
 
 **Downstream consumers:**
-- `tdd-developer` (TDD execution) -- Reads Files, Action, Tests, Verify, Done
-- `practical-verifier` (post-TDD) -- Reads Verify and Done criteria
-- `code-reviewer` (review) -- Reads the plan to understand intent
+- `dave-tdd-developer` (TDD execution) -- Reads Files, Action, Tests, Verify, Done
+- `dave-practical-verifier` (post-TDD) -- Reads Verify and Done criteria
+- `dave-code-reviewer` (review) -- Reads the plan to understand intent
 - `verification` (verify) -- Reads Must-Haves and Verify criteria
 
 ---

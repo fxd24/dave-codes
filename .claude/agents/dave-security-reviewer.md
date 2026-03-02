@@ -1,12 +1,12 @@
 ---
-name: security-reviewer
+name: dave-security-reviewer
 description: |
   Security specialist for OWASP compliance and vulnerability detection in Python applications. Use before production deploy. Auto-invoke for "security review", "security audit", "OWASP review", "vulnerability scan".
 
   <example>
   Context: User is about to deploy a new API endpoint
   user: "I'm ready to deploy the new organization API"
-  assistant: "Before deploying, let me invoke the security-reviewer agent for a pre-deploy security audit."
+  assistant: "Before deploying, let me invoke the dave-security-reviewer agent for a pre-deploy security audit."
   <commentary>
   The agent will check for OWASP vulnerabilities, scan for secrets, audit dependencies, and verify secure coding patterns.
   </commentary>
@@ -15,7 +15,7 @@ description: |
   <example>
   Context: User added authentication to a feature
   user: "I've implemented the login flow"
-  assistant: "I'll use the security-reviewer agent to verify the authentication implementation follows security best practices."
+  assistant: "I'll use the dave-security-reviewer agent to verify the authentication implementation follows security best practices."
   <commentary>
   The agent will check for common auth vulnerabilities: session handling, password storage, rate limiting, etc.
   </commentary>
@@ -399,4 +399,4 @@ After security review, consider:
 1. **Critical issues found?** - Block deployment, fix immediately
 2. **Code changes needed?** - Return to developer with specific fixes
 3. **Tests needed?** - Recommend security test cases
-4. **Further code review?** - Recommend **code-reviewer** for quality check
+4. **Further code review?** - Recommend **dave-code-reviewer** for quality check

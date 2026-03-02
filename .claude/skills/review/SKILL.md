@@ -26,20 +26,20 @@ Launch multiple parallel code reviews covering different aspects, plus get secon
 
 ## Review Dimensions
 
-### 1. Architecture & Design (code-reviewer agent)
+### 1. Architecture & Design (dave-code-reviewer agent)
 - Clean architecture principles
 - Separation of concerns
 - Repository/service layer violations
 - Unnecessary abstractions (thin wrappers that add no value)
 - Cognitive load of the solution
 
-### 2. Security (security-reviewer agent)
+### 2. Security (dave-security-reviewer agent)
 - OWASP Top 10 compliance
 - Input validation
 - Secret handling
 - SQL injection risks
 
-### 3. Data Pipeline (data-pipeline-reviewer agent)
+### 3. Data Pipeline (dave-data-pipeline-reviewer agent)
 - Dagster asset patterns
 - Idempotency
 - Error handling
@@ -60,9 +60,9 @@ Launch multiple parallel code reviews covering different aspects, plus get secon
 ```
 
 Launches:
-- code-reviewer agent (architecture, patterns, quality)
-- security-reviewer agent (if auth/input handling detected)
-- data-pipeline-reviewer agent (if Dagster assets detected)
+- dave-code-reviewer agent (architecture, patterns, quality)
+- dave-security-reviewer agent (if auth/input handling detected)
+- dave-data-pipeline-reviewer agent (if Dagster assets detected)
 - External reviews via Codex (gpt-5.3-codex) + 2-3 OpenCode models
 
 ### Quick Review (skip external)
@@ -97,7 +97,7 @@ Determine what's being reviewed:
 Use the Task tool to spawn appropriate reviewer agents:
 
 ```
-Task: code-reviewer
+Task: dave-code-reviewer
 "Review {files} for architecture, design patterns, code quality. Focus on:
 - Clean architecture violations
 - Unnecessary abstractions (thin wrappers)
@@ -105,10 +105,10 @@ Task: code-reviewer
 - Repository/service patterns
 Read CLAUDE.md and docs/COMMON_IMPLEMENTATION_ERRORS.md first."
 
-Task: security-reviewer (if security-relevant)
+Task: dave-security-reviewer (if security-relevant)
 "Security review of {files}. Focus on OWASP Top 10."
 
-Task: data-pipeline-reviewer (if pipeline code)
+Task: dave-data-pipeline-reviewer (if pipeline code)
 "Review {files} for pipeline best practices, idempotency, error handling."
 ```
 
@@ -190,8 +190,8 @@ The developer reads this review to find what to fix — long lists of "this is f
 ## Code Review: {target}
 
 ### Review Sources
-- [x] code-reviewer (Claude)
-- [x] security-reviewer (Claude)
+- [x] dave-code-reviewer (Claude)
+- [x] dave-security-reviewer (Claude)
 - [x] Codex gpt-5.3-codex
 - [x] OpenCode kimi-k2.5-free
 - [x] OpenCode glm-4.7-free
@@ -208,7 +208,7 @@ Tests: [one line — "thorough" / issue summary]
 
 | # | Finding | Source(s) | Severity | Assessment | Rationale |
 |---|---------|-----------|----------|------------|-----------|
-| 1 | [Brief description] | code-reviewer, Codex | Critical | **Fix now** | [Why this needs immediate attention] |
+| 1 | [Brief description] | dave-code-reviewer, Codex | Critical | **Fix now** | [Why this needs immediate attention] |
 | 2 | [Brief description] | Codex, Kimi | Medium | **Defer to issue** | [Valid but not blocking; suggest issue title] |
 | 3 | [Brief description] | GLM | Low | **False positive** | [Why this doesn't apply] |
 
